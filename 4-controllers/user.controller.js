@@ -1,15 +1,23 @@
-const {User} = require('../1-models/userModel')
-const {userErrorHandler} = require('../7-config/userErrorConfig')
+const { User } = require('../1-models/userModel')
+const { userErrorHandler } = require('../7-config/userErrorConfig')
 const userServices = require('../5-services/user.services')
-const {errorHandler} = require('../7-config/authErrorConfig')
-const {UserSavedPet, AdoptPet} = require('../1-models/userAdoptedPetsModel')
-const {joiValidateService} = require('../5-services/joi.validate.serivces')
-const {editProfileValidation} = require('../2-joiValidations/registrationValidation')
+const { errorHandler } = require('../7-config/authErrorConfig')
+const { UserSavedPet, AdoptPet } = require('../1-models/userAdoptedPetsModel')
+const { joiValidateService } = require('../5-services/joi.validate.serivces')
+const { editProfileValidation } = require('../2-joiValidations/registrationValidation')
 const _ = require('lodash')
 const authServices = require('../5-services/auth.service')
 
 const formUserObj = (body) => {
-	let userObj = _.pick(body, ['name', 'surName', 'email', 'password', 'phone', 'permissions', 'bio'])
+	let userObj = _.pick(body, [
+		'name',
+		'surName',
+		'email',
+		'password',
+		'phone',
+		'permissions',
+		'bio',
+	])
 	return userObj
 }
 
@@ -22,7 +30,6 @@ const getById = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
 	//check if user is admin
-	console.log(req.user.permissions, 'req.user.permissions')
 	if (req.user.permissions === '0') return next(errorHandler.onlyAdmin())
 
 	// get list of all users
@@ -83,9 +90,9 @@ const editPassword = async (req, res, next) => {
 	const newHashed = await authServices.generateHash(req.body.rePassword)
 
 	// Update user new password
-	await userServices.updateUser(req.user.uid, {password: newHashed})
+	await userServices.updateUser(req.user.uid, { password: newHashed })
 
-	res.send({succes: true})
+	res.send({ succes: true })
 }
 
-module.exports = {getById, getAll, getFullUser, editPassword, editProfile}
+module.exports = { getById, getAll, getFullUser, editPassword, editProfile }
