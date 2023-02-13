@@ -1,4 +1,4 @@
-const Joi = require('Joi')
+const Joi = require('joi')
 
 const validatePet = (object) => {
 	const schema = Joi.object({

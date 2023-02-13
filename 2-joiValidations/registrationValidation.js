@@ -1,5 +1,5 @@
-const Joi = require('Joi')
-const {max} = require('lodash')
+const Joi = require('joi')
+const { max } = require('lodash')
 const registerValidation = (object) => {
 	const schema = Joi.object({
 		name: Joi.string().min(3).required(),
