@@ -1,16 +1,15 @@
-const {petErrorHandler} = require('../7-config/petErrorConfig')
-const {successHandler} = require('../7-config/petSuccessConfig')
-const {validatePet, validateEditedPet} = require('../2-joiValidations/petValidation')
-const {joiValidateService} = require('../5-services/joi.validate.serivces')
+const { petErrorHandler } = require('../7-config/petErrorConfig')
+const { successHandler } = require('../7-config/petSuccessConfig')
+const { validatePet, validateEditedPet } = require('../2-joiValidations/petValidation')
+const { joiValidateService } = require('../5-services/joi.validate.serivces')
 const petServices = require('../5-services/pet.service')
 const _ = require('lodash')
-const {UserSavedPet, AdoptPet} = require('../1-models/userAdoptedPetsModel')
-const {SavePet} = require('../1-models/userSavePet')
-const {Pet} = require('../1-models/petsModels')
-const {FavoritePet} = require('../1-models/userSavePet')
+const { UserSavedPet, AdoptPet } = require('../1-models/userAdoptedPetsModel')
+const { SavePet } = require('../1-models/userSavePet')
+const { Pet } = require('../1-models/petsModels')
+const { FavoritePet } = require('../1-models/userSavePet')
 
 const addPet = async (req, res, next) => {
-	console.log(req.user.permissions)
 	// Validate user is an admin
 	if (req.user.permissions !== 2) next(petErrorHandler.onlyAdmin())
 
@@ -139,11 +138,12 @@ const handleQuery = async (req, res, next) => {
 
 	let query = {}
 
-	const {name, weight_start, weight_end, height_start, height_end, type, adoption_status} = req.query
+	const { name, weight_start, weight_end, height_start, height_end, type, adoption_status } =
+		req.query
 
 	if (name) query.name = new RegExp(name, 'i')
-	if (weight_start && weight_end) query.weight = {$gte: weight_start, $lte: weight_end}
-	if (height_start && height_end) query.height = {$gte: height_start, $lte: height_end}
+	if (weight_start && weight_end) query.weight = { $gte: weight_start, $lte: weight_end }
+	if (height_start && height_end) query.height = { $gte: height_start, $lte: height_end }
 	if (adoption_status) query.adoptionStatus = adoption_status
 	if (type) query.type = type
 
@@ -163,4 +163,15 @@ const handleQuery = async (req, res, next) => {
 	// }
 }
 
-module.exports = {addPet, findAll, findOne, adoptFoster, editPet, returnPet, savePet, deletePet, findUserPets, handleQuery}
+module.exports = {
+	addPet,
+	findAll,
+	findOne,
+	adoptFoster,
+	editPet,
+	returnPet,
+	savePet,
+	deletePet,
+	findUserPets,
+	handleQuery,
+}
